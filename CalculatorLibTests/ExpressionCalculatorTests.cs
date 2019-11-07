@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using Moq;
 using CalculatorLib;
 
 namespace CalculatorLibTests
@@ -13,8 +14,17 @@ namespace CalculatorLibTests
         [Test]
         public void Test_CalculateExpression_NoBrackets_OneOperation()
         {
+            var mockP = new Mock<IParser>();
+            mockP.Setup(p => p.Parse("5*2")).Returns(new List<string>() { "5","*","2"});
+            IParser mockParser = mockP.Object;
+
+            var mockRPR = new Mock<IReversePolishRecord>();
+            mockRPR.Setup(p => p.Code(new List<string>() { "5", "*", "2" })).Returns(new List<string>() { "5","2","*"});
+            mockRPR.Setup(p => p.Decode(new List<string>() { "5", "2", "*" })).Returns(10);
+            IReversePolishRecord mockReversePolishRecor = mockRPR.Object;
+
             double resultExpected = 10;
-            double resultActual = new ExpressionCalculator().Calculate("5*2");
+            double resultActual = new ExpressionCalculator(mockParser, mockReversePolishRecor).Calculate("5*2");
             Assert.AreEqual(resultExpected, resultActual);
         }
 

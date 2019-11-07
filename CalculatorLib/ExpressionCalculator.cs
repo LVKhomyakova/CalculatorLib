@@ -9,8 +9,19 @@ namespace CalculatorLib
 {
     public class ExpressionCalculator
     {
-        IParser Parser { get; set; } = new ExpressionParser();
-        IReversePolishRecord ReversePolishRecord { get; set; } = new ReversePolishRecord();
+        IParser Parser { get; set; }
+        IReversePolishRecord ReversePolishRecord { get; set; } 
+        public ExpressionCalculator()
+        {
+            Parser = new ExpressionParser();
+            ReversePolishRecord = new ReversePolishRecord();
+        }
+
+        public ExpressionCalculator(IParser parser, IReversePolishRecord rpr)
+        {
+            Parser = parser;
+            ReversePolishRecord = rpr;
+        }
 
         public double Calculate(string expr)
         {
