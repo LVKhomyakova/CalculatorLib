@@ -54,9 +54,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorParserTests.cs" />
+    <Compile Include="ExpressionParserTests.cs" />
     <Compile Include="CalculatorTests.cs" />
+    <Compile Include="ExpressionCalculatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReversePolishRecordTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

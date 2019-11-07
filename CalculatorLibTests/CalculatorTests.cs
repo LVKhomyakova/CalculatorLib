@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace CalculatorLibTests
 {
-    [TestFixture]
+    [TestFixture,Category("Unit Tests")]
     public class CalculatorTests
     {
         static double[][] SumCases = new double[][] {
@@ -88,54 +88,5 @@ namespace CalculatorLibTests
         {
             Assert.AreEqual(expRes, Calculator.Power(a,b));
         }
-
-        [Test]
-        public void TestCalculateExpression_NoBrackets()
-        {
-            double resultExpected = 8;
-            double resultActual = Calculator.CalculateExpression("5*2-10/5");
-            Assert.AreEqual(resultExpected, resultActual);
-        }
-
-        [Test]
-        public void TestCalculateExpression_Brackets()
-        {
-            double resultExpected = 12;
-            double resultActual = Calculator.CalculateExpression("(5*(22-10)/5.0)");
-            Assert.AreEqual(resultExpected, resultActual);
-        }
-
-        [Test]
-        public void TestCalculateExpression_NegativeInCalculation()
-        {
-            double resultExpected = -8;
-            double resultActual = Calculator.CalculateExpression("(5*(2-10)/5.0)");
-            Assert.AreEqual(resultExpected, resultActual);
-        }
-
-        [Test]
-        public void TestCalculateExpression_NegativeInExpression()
-        {
-            double resultExpected = 8;
-            double resultActual = Calculator.CalculateExpression("(5*2-(-10)/(-5.0))");
-            Assert.AreEqual(resultExpected, resultActual);
-        }
-
-        [Test]
-        public void TestCalculateExpression_OneOperand()
-        {
-            double resultExpected = 2;  //5*2-(-10)/lg(105-5)*sqrt(25)
-            double resultActual = Calculator.CalculateExpression("lg(105-5)");
-            Assert.AreEqual(resultExpected, resultActual);
-        }
-
-        [Test]
-        public void TestCalculateExpression_AllInclude()
-        {
-            double resultExpected = -8.65942655433;  //   
-            double resultActual = Calculator.CalculateExpression("lg(8)^(-5)+85/19.8*lg(lg(sqrt(9)))*sqrt(56)");
-            Assert.AreEqual(resultExpected, resultActual,1e-10);
-        }
-
     }
 }
