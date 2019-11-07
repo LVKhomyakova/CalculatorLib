@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace CalculatorLib
 {
-    public static class Calculator
+    public class Calculator
     {
         static Stack ParseStack { get; set; } = new Stack();
         static List<string> ReversePolishRecord { get; set; } = new List<string>();
 
-        static Dictionary<string, int> operations;
         static Dictionary<string, int> Operations { get; set; } 
             = new Dictionary<string, int> {
                 {"+", 1 },
@@ -22,15 +21,15 @@ namespace CalculatorLib
                 {"/", 2 },
                 {"sqrt", 3 },
                 {"^", 3 },
-                {"lg", 3 } //lg основание 10, ln основание e, lb основание 2
+                {"lg", 3 } //lg основание 10
             };
         
-        public static double Summarize(double a,double b)
+        public static double Sum(double a,double b)
         {
             return a + b;
         }
 
-        public static double Subtract(double a, double b)
+        public static double Sub(double a, double b)
         {
             return a - b;
         }
@@ -44,17 +43,21 @@ namespace CalculatorLib
         {
             if (b != 0.0)
                 return a / b;
-            return 0;
+            throw new DivideByZeroException();
         }
 
         public static double Logarithm10(double a)
         {
-            return Math.Log10(a);
+            if (a > 0.0)
+                return Math.Log10(a);
+            throw new ArgumentException();
         }
 
         public static double SquareRoot(double a)
         {
-            return Math.Sqrt(a);
+            if(a>=0)
+                return Math.Sqrt(a);
+            throw new ArgumentException();
         }
 
         public static double Power(double a, double b)
@@ -67,9 +70,9 @@ namespace CalculatorLib
             switch (op)
             {
                 case "+":
-                    return Summarize(leftOp, rightOp);
+                    return Sum(leftOp, rightOp);
                 case "-":
-                    return Subtract(leftOp, rightOp);
+                    return Sub(leftOp, rightOp);
                 case "*":
                     return Multiply(leftOp, rightOp);
                 case "/":
@@ -149,18 +152,9 @@ namespace CalculatorLib
                 ReversePolishRecord.Add(operands.Pop().ToString());
             }
         }
-        public static List<string> ParseExpression(string expr)
-        {
-            Regex regex = new Regex(@"[0-9.]+|[-+*/^]{1}|[()]{1}|[a-z]+");
-            MatchCollection mc = regex.Matches(expr);
-            List<string> parsedExpression = new List<string>();
-            foreach (Match item in mc)
-                    parsedExpression.Add(item.Value);
-            return parsedExpression;
-        }
         public static double CalculateExpression(string expr)
         {
-            List<string> parsedExpression = ParseExpression(expr);
+            List<string> parsedExpression = CalculatorParser.ParseExpression(expr);
             List<string> expressionPart = new List<string>();
             if (parsedExpression.Contains("(")) //если выражение сложное (со скобками или сложными операциями)
             {
